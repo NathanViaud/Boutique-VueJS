@@ -37,6 +37,7 @@ img {
 a {
   color: var(--text-color);
   text-decoration: none;
+  cursor: pointer;
 }
 
 body {
@@ -48,10 +49,22 @@ body {
   background-color: var(--gray-1);
 }
 
-input {
+input, textarea, select {
   border: var(--border);
   border-radius: var(--border-radius);
   padding: 8px 15px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-3);
+}
+
+.form-error {
+    color: var(--danger-1);
+    font-size: 14px;
+    font-weight: 500;
 }
 
 // flex
@@ -164,4 +177,13 @@ input {
   &:hover {
     background-color: var(--success-2);
   }
+}
+
+// card
+
+.card {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background-color: white;
+    padding: 30px;
 }

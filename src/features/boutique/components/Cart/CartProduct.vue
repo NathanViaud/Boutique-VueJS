@@ -3,7 +3,7 @@
         <strong class="mr-10">{{ product.title }}</strong>
         <span class="flex-fill">x {{ product.quantity }}</span>
         <span class="mr-10">Prix : {{ product.price }}€</span>
-        <button class="btn btn-danger" @click="emit('removeProductFromCart', product.id)" >supprimer</button>
+        <button class="btn btn-danger" @click="emit('removeProductFromCart', product._id)" >supprimer</button>
     </div>
 </template>
 
@@ -16,7 +16,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-    (e: 'removeProductFromCart', productId: number): void
+    (e: 'removeProductFromCart', productId: string): void
 }>()
 
 </script>

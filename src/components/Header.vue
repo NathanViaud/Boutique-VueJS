@@ -6,10 +6,10 @@
         </a>
         <ul class="d-flex flex-row flex-fill">
             <li class="mr-10">
-                <a href="#">Boutique</a>
+                <a :class="{ active: page === 'Boutique' }" @click="emit('navigate', 'Boutique')" href="#">Boutique</a>
             </li>
             <li>
-                <a href="#">Admin</a>
+                <a :class="{ active: page === 'Admin' }" @click="emit('navigate', 'Admin')" href="#">Admin</a>
             </li>
         </ul>
         <ul class="d-flex flex-row">
@@ -24,6 +24,17 @@
 </template>
 
 <script setup lang="ts">
+
+import type { Page } from '@/interfaces'
+
+defineProps<{
+    page: Page
+}>()
+
+const emit = defineEmits<{
+    (e: 'navigate', page: Page): void
+}>()
+
 </script>
 
 <style lang="scss" scoped>
@@ -40,7 +51,11 @@ header {
             font-weight: 700;
             font-size: 20px;
         }
+        &.active {
+            text-decoration: underline;
+        }
     }
+    
 }
 
 </style>

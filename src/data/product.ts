@@ -1,8 +1,5 @@
-import type { ProductInterface } from "@/interfaces";
-
 export default [
     {
-      id: 1,
       image: 'src/assets/images/macbookpro.PNG',
       title: 'Macbook Pro',
       description:
@@ -11,7 +8,6 @@ export default [
       category: 'desktop'
     },
     {
-      id: 2,
       image: 'src/assets/images/levono.PNG',
       title: 'Levono Pro',
       description:
@@ -20,7 +16,6 @@ export default [
       category: 'desktop'
     },
     {
-      id: 3,
       image: 'src/assets/images/rider.PNG',
       title: 'Rider',   
       description:
@@ -29,7 +24,6 @@ export default [
       category: 'gamer'
     },
     {
-      id: 4,
       image: 'src/assets/images/ldlc.PNG',
       title: 'LDLC benolo',
       description:
@@ -38,7 +32,6 @@ export default [
       category: 'streaming'
     },
     {
-      id: 5,
       image: 'src/assets/images/asus.PNG',
       title: 'Asus gamer',
       description:
@@ -47,7 +40,6 @@ export default [
       category: 'gamer'
     },
     {
-      id: 6,
       image: 'src/assets/images/rog.PNG',
       title: 'Rog desktop',
       description:
@@ -56,7 +48,6 @@ export default [
       category: 'streaming'
     },
     {
-      id: 7,
       image: 'src/assets/images/msi.PNG',
       title: 'MSI play',
       description:
@@ -65,7 +56,6 @@ export default [
       category: 'gamer'
     },
     {
-      id: 8,
       image: 'src/assets/images/pad.PNG',
       title: 'Think pad',
       description:
@@ -73,4 +63,4 @@ export default [
       price: 899,
       category: 'desktop'
     },
-] as ProductInterface[]
+]
