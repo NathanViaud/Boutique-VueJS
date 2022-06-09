@@ -23,7 +23,7 @@ import { seed } from './data/seed';
 const state = reactive<{
     page: Page
 }>({
-    page: 'Admin'
+    page: 'Boutique'
 })
 
 const pages: { [s: string]: C } = {
