@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-container d-flex flex-row justify-content-center align-items-center">
+    <div class="admin-container d-flex flex-row justify-content-center align-items-center p-20">
         <ProductForm />
     </div>
 </template>

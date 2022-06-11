@@ -7,7 +7,7 @@
             </Suspense>
         </div>
         
-		<TheFooter class="footer"/>
+		<TheFooter class="footer hide-xs"/>
 	</div>
 </template>
 
@@ -18,7 +18,7 @@ import Boutique from './features/boutique/Boutique.vue'
 import Admin from './features/admin/Admin.vue'
 import { reactive, type Component as C } from 'vue';
 import type { Page } from '@/interfaces'
-import { seed } from './data/seed';
+import { seed, seed40Articles } from './data/seed';
 
 const state = reactive<{
     page: Page
@@ -35,7 +35,8 @@ function navigate(page: Page): void {
     state.page = page;
 }
 
-// seed('projetproducts');
+// seed('vueprojectproducts2');
+// seed40Articles('vueprojectproducts2')
 
 </script>
 

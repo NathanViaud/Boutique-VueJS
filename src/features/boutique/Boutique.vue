@@ -1,10 +1,12 @@
 <template>
-    <div class="boutique-container" :class="{ 'grid-empty': cartEmpty }">
+    <div class="d-flex flex-column">
         <Shop 
-			@update-filter="updateFilter" 
+			@update-filter="updateFilter"
+            @add-product-to-cart="addProductToCart"
+            @inc-page="state.page++"
 			:products="filteredProducts"
 			:filters="state.filters"
-			@addProductToCart="addProductToCart" 
+            :more-results = "state.moreResults"
 			class="shop"
 		/>
 		<Cart 
@@ -20,26 +22,48 @@
 import Shop from './components/Shop/Shop.vue'
 import Cart from './components/Cart/Cart.vue'
 import type { ProductInterface, ProductCartInterface, FiltersInterface, FilterUpdate } from '@/interfaces'
-import { computed, reactive } from 'vue'
+import { computed, provide, reactive, watch, watchEffect, toRef } from 'vue'
 import { DEFAULT_FILTERS } from './data/filters'
+import { fetchProduct } from '@/shared/services/product.service'
+import { pageKey } from '@/shared/injectionKeys/pageKey'
 
 
 const state = reactive<{
 	products: ProductInterface[],
 	cart: ProductCartInterface[],
-	filters: FiltersInterface
+	filters: FiltersInterface,
+    page: number,
+    isLoading: boolean,
+    moreResults: boolean
 }>({
 	products: [],
 	cart: [],
-	filters: { ...DEFAULT_FILTERS }
+	filters: { ...DEFAULT_FILTERS },
+    page: 1,
+    isLoading: true,
+    moreResults: true
 })
 
-const products = await (await fetch('https://restapi.fr/api/projetproducts')).json()
-if(Array.isArray(products)) {
-    state.products = products
-} else {
-    state.products = [products]
-}
+provide(pageKey, toRef(state, 'page'));
+
+watch(() => state.filters.category && state.filters.priceRange, () => {
+    state.page = 1;
+    state.products = [];
+})
+
+watchEffect(async () => {
+    state.isLoading = true;
+    const products = await fetchProduct(state.filters, state.page);
+    if (Array.isArray(products)) {
+        state.products = [...state.products, ...products];
+        if(products.length < 20) {
+            state.moreResults = false;
+        }
+    } else {
+        state.products = [...state.products, products];
+    }
+    state.isLoading = false;
+})
 
 function addProductToCart(productId: string): void {
 	const product = state.products.find(product => product._id === productId);
@@ -72,7 +96,10 @@ function updateFilter(filterUpdate: FilterUpdate) {
 	} else if(filterUpdate.category) {
 		state.filters.category = filterUpdate.category
 	} else {
-		state.filters = { ...DEFAULT_FILTERS }
+		state.filters = { ...DEFAULT_FILTERS };
+        // case not catched in watch
+        state.page = 1;
+        state.products = [];
 	}
 }
 
@@ -81,10 +108,7 @@ const cartEmpty = computed(() => state.cart.length === 0)
 const filteredProducts = computed(() => {
 	return state.products.filter((product) => {
 		if(
-			product.title.toLocaleLowerCase().startsWith(state.filters.search.toLocaleLowerCase()) && 
-			product.price >= state.filters.priceRange[0] &&
-			product.price <= state.filters.priceRange[1] &&
-			(product.category === state.filters.category || state.filters.category === 'all')
+			product.title.toLocaleLowerCase().startsWith(state.filters.search.toLocaleLowerCase())
 		) {
 			return true;
 		} else {
