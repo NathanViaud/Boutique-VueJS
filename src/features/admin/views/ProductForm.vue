@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <h3 class="mb-10">Ajouter un article</h3>
+        <h3 class="mb-10">{{ product ? 'Editer un produit ' : 'Créer un produit' }}</h3>
         <form @submit="trySubmit">
             <div class="d-flex flex-column mb-20">
                 <label class="mb-5">Titre</label>
@@ -37,18 +37,35 @@
 </template>
 
 <script setup lang="ts">
-
 import { useForm, useField } from 'vee-validate'
 import { z } from 'zod'
 import { toFormValidator } from '@vee-validate/zod'
 import { onMounted, ref } from 'vue';
+import { addProduct, editProduct, getProduct } from '@/shared/services/product.service';
+import type { ProductInterface, ProductFormInterface } from '@/interfaces';
+import { useRoute, useRouter } from 'vue-router';
 
 const required = { required_error: 'Veuillez renseigner ce champ'}
 const API_URL = 'https://restapi.fr/api/projetproducts'
 const firstInput = ref<HTMLInputElement | null>(null)
+const product = ref<ProductInterface | null>(null)
+
+const route = useRoute()
+const router = useRouter()
+if(route.params.productId) {
+    product.value = await getProduct(route.params.productId as string)
+}
+
+const initialValues = {
+    title: product.value ? product.value.title : '',
+    image: product.value ? product.value.image : '',
+    price: product.value ? product.value.price : 0,
+    description: product.value ? product.value.description  : '',
+    category: product.value ? product.value.category : 'desktop'
+}
 
 onMounted(() => {
-    
+    firstInput.value?.focus()
 })
 
 const validationSchema = toFormValidator(
@@ -62,7 +79,8 @@ const validationSchema = toFormValidator(
 )
 
 const { handleSubmit, isSubmitting } = useForm({
-    validationSchema
+    validationSchema,
+    initialValues
 })
 
 const title = useField('title');
@@ -73,15 +91,12 @@ const category = useField('category');
 
 const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
     try {
-        await fetch(API_URL, {
-            method: 'POST',
-            body: JSON.stringify(formValues),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        resetForm();
-        firstInput.value?.focus;
+        if(!product.value) {
+            await addProduct(formValues)
+        } else {
+            await editProduct(product.value._id, formValues)
+        }
+        router.push('/admin/productlist')
     } catch(e) {
         console.log(e)
     }

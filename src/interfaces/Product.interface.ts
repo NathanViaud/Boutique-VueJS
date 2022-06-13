@@ -9,3 +9,11 @@ export interface ProductInterface {
     price: number;
     category: Category;
 }
+
+export interface ProductFormInterface {
+    title: string;
+    image: string;
+    description: string;
+    price: number;
+    category: Category;
+}

@@ -8,7 +8,7 @@
                 :product="product"
             />
         </div>
-        <div v-if="moreResults" class="d-flex flex-row align-items-center justify-content-center">
+        <div v-if="moreResults && products.length > 0" class="d-flex flex-row align-items-center justify-content-center">
             <button @click="emit('incPage')" class="btn btn-primary">Charger plus de produit</button>
         </div>
     </div>

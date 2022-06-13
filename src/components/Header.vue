@@ -8,10 +8,10 @@
         <div class="d-flex flex-row align-items-center flex-fill actions-container">
             <ul class="d-flex flex-row flex-fill hide-xs flex-fill">
                 <li class="mr-10">
-                    <a :class="{ active: page === 'Boutique' }" @click="emit('navigate', 'Boutique')" href="#">Boutique</a>
+                    <router-link to="/boutique">Boutique</router-link>
                 </li>
                 <li>
-                    <a :class="{ active: page === 'Admin' }" @click="emit('navigate', 'Admin')" href="#">Admin</a>
+                    <router-link to="/admin">Admin</router-link>
                 </li>
             </ul>
             <ul class="d-flex flex-row hide-xs">
@@ -28,10 +28,10 @@
                 <Transition>
                     <ul @click="state.open = false" class="menu card" v-if="state.open">
                         <li class="mr-10">
-                            <a :class="{ active: page === 'Boutique' }" @click="emit('navigate', 'Boutique')" href="#">Boutique</a>
+                            <router-link to="/boutique">Boutique</router-link>
                         </li>
                         <li>
-                            <a :class="{ active: page === 'Admin' }" @click="emit('navigate', 'Admin')" href="#">Admin</a>
+                            <router-link to="/admin">Admin</router-link>
                         </li>
                         <li class="mr-10">
                             <a href="#">Inscription</a>
@@ -47,8 +47,6 @@
 </template>
 
 <script setup lang="ts">
-
-import type { Page } from '@/interfaces'
 import { reactive } from 'vue';
 import Calc from './Calc.vue';
 
@@ -57,14 +55,6 @@ const state = reactive<{
 }>({
     open: false
 })
-
-defineProps<{
-    page: Page
-}>()
-
-const emit = defineEmits<{
-    (e: 'navigate', page: Page): void
-}>()
 
 </script>
 
@@ -82,9 +72,6 @@ header {
         .logo {
             font-weight: 700;
             font-size: 20px;
-        }
-        &.active {
-            text-decoration: underline;
         }
     }
 
