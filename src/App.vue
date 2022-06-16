@@ -16,11 +16,6 @@
 <script setup lang="ts">
 import TheHeader from './components/Header.vue'
 import TheFooter from './components/Footer.vue'
-
-
-// seed('vueprojectproducts2');
-// seed40Articles('vueprojectproducts2')
-
 </script>
 
 <style lang="scss">

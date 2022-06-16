@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-    import type { FiltersInterface, FilterUpdate, Category } from '@/interfaces'
+    import type { FiltersInterface, FilterUpdate, Category } from '@/shared/interfaces'
 
     defineProps<{
         filters: FiltersInterface

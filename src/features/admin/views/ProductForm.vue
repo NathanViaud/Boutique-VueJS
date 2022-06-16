@@ -42,8 +42,9 @@ import { z } from 'zod'
 import { toFormValidator } from '@vee-validate/zod'
 import { onMounted, ref } from 'vue';
 import { addProduct, editProduct, getProduct } from '@/shared/services/product.service';
-import type { ProductInterface, ProductFormInterface } from '@/interfaces';
+import type { ProductInterface, ProductFormInterface } from '@/shared/interfaces';
 import { useRoute, useRouter } from 'vue-router';
+import { useAdminProducts } from '../stores/adminProductStore';
 
 const required = { required_error: 'Veuillez renseigner ce champ'}
 const API_URL = 'https://restapi.fr/api/projetproducts'
@@ -52,6 +53,8 @@ const product = ref<ProductInterface | null>(null)
 
 const route = useRoute()
 const router = useRouter()
+const adminProductStore = useAdminProducts()
+
 if(route.params.productId) {
     product.value = await getProduct(route.params.productId as string)
 }
@@ -92,9 +95,9 @@ const category = useField('category');
 const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
     try {
         if(!product.value) {
-            await addProduct(formValues)
+            await adminProductStore.addProduct(formValues)
         } else {
-            await editProduct(product.value._id, formValues)
+            await adminProductStore.editProduct(product.value._id, formValues)
         }
         router.push('/admin/productlist')
     } catch(e) {

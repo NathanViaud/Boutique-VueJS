@@ -6,6 +6,7 @@
                 v-for="product of products" 
                 :key="product._id"
                 :product="product"
+                :page="page"
             />
         </div>
         <div v-if="moreResults && products.length > 0" class="d-flex flex-row align-items-center justify-content-center">
@@ -15,13 +16,13 @@
 </template>
 
 <script setup lang="ts">
-import type { ProductInterface } from '@/interfaces';
-import { pageKey } from '@/shared/injectionKeys/pageKey';
-import { inject, onUpdated, ref, watch } from 'vue';
+import type { ProductInterface } from '@/shared/interfaces';
+import { ref, watch } from 'vue';
 import ShopProduct from './ShopProduct.vue';
 
 const props = defineProps<{
     products: ProductInterface[],
+    page: number,
     moreResults: boolean,
 }>()
 
@@ -30,12 +31,11 @@ const emit = defineEmits<{
     (e: 'incPage'): void
 }>()
 
-const page = inject(pageKey)!;
 
 const scrollablediv = ref<HTMLDivElement | null>(null)
 
-watch(page, () => {
-    if(page.value === 1) {
+watch(() => props.page, () => {
+    if(props.page === 1) {
         scrollablediv.value?.scrollTo(0, 0)
     }
 })

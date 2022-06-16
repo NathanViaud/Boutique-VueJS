@@ -21,17 +21,17 @@
                 @inc-page="emit('incPage')" 
                 :products="products"
                 :more-results="moreResults"
+                :page="page"
             />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import type { FiltersInterface, FilterUpdate, ProductInterface } from '@/interfaces';
+import type { FiltersInterface, FilterUpdate, ProductInterface } from '@/shared/interfaces';
 import ShopProductList from './ShopProductList.vue';
 import ShopFilters from './ShopFilters.vue';
 import { reactive } from 'vue';
-import { boolean } from 'zod';
 import Calc from '@/components/Calc.vue'
 
 const state = reactive<{
@@ -44,8 +44,9 @@ const state = reactive<{
 
 defineProps<{
     products: ProductInterface[],
-    filters: FiltersInterface
-    moreResults: boolean
+    filters: FiltersInterface,
+    page: number,
+    moreResults: boolean,
 }>()
 
 const emit = defineEmits<{

@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import CartProductList from './CartProductList.vue';
-import type { ProductCartInterface } from '@/interfaces'
+import type { ProductCartInterface } from '@/shared/interfaces'
 import { computed, reactive } from 'vue'
 import Calc from '@/components/Calc.vue'
 

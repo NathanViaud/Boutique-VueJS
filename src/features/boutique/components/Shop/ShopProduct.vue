@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ProductInterface } from '@/interfaces';
+import type { ProductInterface } from '@/shared/interfaces';
 
 defineProps<{
     product: ProductInterface
